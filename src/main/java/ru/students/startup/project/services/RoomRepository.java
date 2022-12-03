@@ -9,6 +9,9 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.students.startup.project.dto.Room;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Repository
@@ -25,12 +28,36 @@ public class RoomRepository implements ProjectRepository<Room>, ApplicationConte
     }
 
     @Override
+    public List<Long> retrieveAll() {
+        List<Long> ids = jdbcTemplate.query("SELECT id FROM rooms", (ResultSet rs, int rowNum) -> {
+            Long id;
+            id = rs.getLong("id");
+            return id;
+        });
+        return new ArrayList<>(ids);
+    }
+
+    @Override
     public void store(Room room) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("question",room.getQuestion());
         parameterSource.addValue("variants",room.getVariants());
         jdbcTemplate.update("INSERT INTO rooms(question,variants) VALUES(:question, :variants)",parameterSource);
         logger.info("store new book: " + room);
+    }
+
+    @Override
+    public Room getRoomById(Long id) {
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("id",id);
+        List<Room> rooms = jdbcTemplate.query("SELECT * FROM rooms WHERE id = :id", parameterSource, (ResultSet rs, int rowNum) -> {
+            Room room1 = new Room();
+            room1.setId(rs.getLong("id"));
+            room1.setQuestion(rs.getString("question"));
+            room1.setVariants(new String[]{rs.getString("variants")});
+            return room1;
+        });
+        return rooms.get(0);
     }
 
     @Override

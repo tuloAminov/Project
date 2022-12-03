@@ -31,11 +31,11 @@
 </head>
 <body>
 <div id="root_container">
-  <form method="post" th:action="@{/playing}" th:object="${room}">
+  <form method="post" th:action="@{/playing}" th:object="${id}">
     <table>
       <tr>
         <td>
-          <input type="text" placeholder="id" th:field="*{id}">
+          <input type="text" placeholder="id">
         </td>
         <td>
           <input type="submit" value="Подключиться">
