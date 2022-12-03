@@ -26,21 +26,16 @@ public class JoinController {
 
     @GetMapping("/join")
     public String join(Model model){
-        model.addAttribute("id", new Room().getId());
+        model.addAttribute("room", new Room());
         return "join";
     }
 
-    @GetMapping("/all")
-    public String all(Model model){
-        model.addAttribute("all", joinService.retrieveAll());
-        return "all";
-    }
-
     @PostMapping("/playing")
-    public String joining(Long id) throws RoomLoginException {
-        if (joinService.joining(id)){
+    public String joining(Room room) throws RoomLoginException {
+        if (joinService.joining(room.getId())){
+            Long id = room.getId();
             logger.info("login OK redirect to book shelf");
-            return "redirect:/main";
+            return "redirect:/playing/" + id;
         }
         else{
             logger.info("login FAIL redirect back to login");

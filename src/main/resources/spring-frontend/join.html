@@ -30,19 +30,11 @@
   </style>
 </head>
 <body>
-<div id="root_container">
-  <form method="post" th:action="@{/playing}" th:object="${id}">
-    <table>
-      <tr>
-        <td>
-          <input type="text" placeholder="id">
-        </td>
-        <td>
-          <input type="submit" value="Подключиться">
-        </td>
-      </tr>
-    </table>
-  </form>
-</div>
+      <div id="login_form">
+          <form method="post" th:action="@{/playing}" th:object="${room}">
+              <input class="login_item" type="text" placeholder="enter username" th:field="*{id}">
+              <input class="login_item" type="submit" value="login">
+          </form>
+      </div>
 </body>
 </html>

@@ -26,8 +26,4 @@ public class JoinService {
     public Room getRoomById(Long id) {
         return roomRepo.getRoomById(id);
     }
-
-    public List<Long> retrieveAll() {
-        return roomRepo.retrieveAll();
-    }
 }
