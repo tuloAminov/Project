@@ -1,13 +1,22 @@
 package ru.students.startup.project.dto;
 
-import java.util.Arrays;
+import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Component
+@Entity
+@Table(name = "room")
 public class Room {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
-    private String question;
-    private String[] variants;
-    private String answer;
+
+    @OneToMany(mappedBy = "room")
+    private List<Question> question = new ArrayList<>();
 
     public Long getId() {
         return Id;
@@ -17,37 +26,19 @@ public class Room {
         Id = id;
     }
 
-    public String getQuestion() {
+    public List<Question> getQuestion() {
         return question;
     }
 
-    public void setQuestion(String question) {
+    public void setQuestion(List<Question> question) {
         this.question = question;
-    }
-
-    public String[] getVariants() {
-        return variants;
-    }
-
-    public void setVariants(String[] variants) {
-        this.variants = variants;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
     }
 
     @Override
     public String toString() {
         return "Room{" +
                 "Id=" + Id +
-                ", question='" + question + '\'' +
-                ", variants=" + Arrays.toString(variants) +
-                ", answer='" + answer + '\'' +
+                ", question=" + question +
                 '}';
     }
 }

@@ -21,6 +21,10 @@ public class RoomService {
         roomRepo.store(room);
     }
 
+    public Room getRoomById(Long id) {
+        return roomRepo.getRoomById(id);
+    }
+
     private void defaultInit() {
         logger.info("default INIT in book service");
     }

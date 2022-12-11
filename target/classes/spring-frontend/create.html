@@ -39,7 +39,19 @@
                 </td>
                 <br>
                 <td>
-                    <input type="text" placeholder="variants" th:field="*{variants}">
+                    <input type="text" placeholder="variants" th:field="*{variants[0]}">
+                </td>
+                <td>
+                    <input type="text" placeholder="variants" th:field="*{variants[1]}">
+                </td>
+                <td>
+                    <input type="text" placeholder="variants" th:field="*{variants[2]}">
+                </td>
+                <td>
+                    <input type="text" placeholder="variants" th:field="*{variants[3]}">
+                </td>
+                <td>
+                    <input type="text" placeholder="answer" th:field="*{answer}">
                 </td>
                 <td>
                     <input type="submit" value="Создать">

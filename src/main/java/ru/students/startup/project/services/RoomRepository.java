@@ -7,10 +7,12 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import ru.students.startup.project.dto.Question;
 import ru.students.startup.project.dto.Room;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -29,7 +31,7 @@ public class RoomRepository implements ProjectRepository<Room>, ApplicationConte
 
     @Override
     public List<Long> retrieveAll() {
-        List<Long> ids = jdbcTemplate.query("SELECT id FROM rooms", (ResultSet rs, int rowNum) -> {
+        List<Long> ids = jdbcTemplate.query("SELECT id FROM room", (ResultSet rs, int rowNum) -> {
             Long id;
             id = rs.getLong("id");
             return id;
@@ -41,8 +43,7 @@ public class RoomRepository implements ProjectRepository<Room>, ApplicationConte
     public void store(Room room) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("question",room.getQuestion());
-        parameterSource.addValue("variants",room.getVariants());
-        jdbcTemplate.update("INSERT INTO rooms(question,variants) VALUES(:question, :variants)",parameterSource);
+        jdbcTemplate.update("INSERT INTO room(question) VALUES(:question)",parameterSource);
         logger.info("store new book: " + room);
     }
 
@@ -50,11 +51,11 @@ public class RoomRepository implements ProjectRepository<Room>, ApplicationConte
     public Room getRoomById(Long id) {
         MapSqlParameterSource parameterSource = new MapSqlParameterSource();
         parameterSource.addValue("id",id);
-        List<Room> rooms = jdbcTemplate.query("SELECT * FROM rooms WHERE id = :id", parameterSource, (ResultSet rs, int rowNum) -> {
+        List<Room> rooms = jdbcTemplate.query("SELECT * FROM room WHERE id = :id", parameterSource, (ResultSet rs, int rowNum) -> {
             Room room1 = new Room();
+            Question question = new Question();
             room1.setId(rs.getLong("id"));
-            room1.setQuestion(rs.getString("question"));
-            room1.setVariants(new String[]{rs.getString("variants")});
+
             return room1;
         });
         return rooms.get(0);
