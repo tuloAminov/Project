@@ -37,7 +37,7 @@ public class JoinController {
     @GetMapping("/join")
     public String join(Model model){
         model.addAttribute("room", new Room());
-        return "join";
+        return "UserRoom";
     }
 
     @PostMapping("/playing")
